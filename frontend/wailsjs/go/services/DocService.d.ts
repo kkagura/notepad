@@ -7,4 +7,4 @@ export function Add(arg1:models.Doc):Promise<services.ServiceResponse>;
 
 export function GetBaseList():Promise<Array<models.Doc>>;
 
-export function GetDocTree():Promise<Array<models.Doc>>;
+export function GetDocTree():Promise<services.ServiceResponse>;

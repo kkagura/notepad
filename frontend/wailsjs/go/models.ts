@@ -6,6 +6,8 @@ export namespace models {
 	    title: string;
 	    fileId: string;
 	    children: Doc[];
+	    createdBy: string;
+	    updatedBy: string;
 	    id: string;
 	    createdAt: string;
 	    updatedAt: string;
@@ -21,6 +23,8 @@ export namespace models {
 	        this.title = source["title"];
 	        this.fileId = source["fileId"];
 	        this.children = this.convertValues(source["children"], Doc);
+	        this.createdBy = source["createdBy"];
+	        this.updatedBy = source["updatedBy"];
 	        this.id = source["id"];
 	        this.createdAt = source["createdAt"];
 	        this.updatedAt = source["updatedAt"];

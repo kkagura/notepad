@@ -9,10 +9,16 @@ type DocService struct {
 }
 
 func NewDocService() *DocService {
-	return &DocService{}
+	s := &DocService{
+		BaseService: &BaseService[models.Doc]{
+			name: "doc",
+		},
+	}
+	s.initData()
+	return s
 }
 
-func (s *DocService) GetDocTree() []models.Doc {
+func (s *DocService) GetDocTree() ServiceResponse {
 	var list []models.Doc = []models.Doc{}
 	var docMap = make(map[string]models.Doc)
 	for _, doc := range s.baseList {
@@ -28,5 +34,5 @@ func (s *DocService) GetDocTree() []models.Doc {
 			list = append(list, doc)
 		}
 	}
-	return list
+	return success(list)
 }

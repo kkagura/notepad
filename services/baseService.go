@@ -48,11 +48,8 @@ type DataFile[T any] struct {
 	List []T `json:"list"`
 }
 
-func NewBaseService[T models.BaseModel](name string) *BaseService[T] {
-	s := &BaseService[T]{
-		name: name,
-	}
-	s.dataPath = path.Join(config.Config.BaseDataPath, name)
+func (s *BaseService[T]) initData() *BaseService[T] {
+	s.dataPath = path.Join(config.Config.BaseDataPath, s.name)
 	s.readFile()
 	return s
 }
@@ -115,7 +112,7 @@ func (s *BaseService[T]) Add(r T) ServiceResponse {
 	s.baseList = utils.Unshift(s.baseList, r)
 	err := s.writeFile()
 	if err != nil {
-		return failure(500, err.Error(), s.baseList)
+		return failure(500, err.Error(), r)
 	}
-	return success(s.baseList)
+	return success(r)
 }

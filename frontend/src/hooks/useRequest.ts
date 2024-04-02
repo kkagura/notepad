@@ -13,23 +13,23 @@ export interface ServiceResponse<Res = any> {
   success: boolean;
 }
 
-interface RequestContext<Req = any, Res = any> {
+interface RequestContext<Res = any, Req = any> {
   loading: boolean;
   pending: boolean;
   error: RequestError | null;
-  request: (req: Req) => Promise<Res>;
+  request: (req?: Req) => Promise<Res>;
 }
 
-export const useRequest = <Req = any, Res = any>(
-  requestFn: (req: Req) => Promise<ServiceResponse<Res>>
+export const useRequest = <Res = any, Req = any>(
+  requestFn: (req?: Req) => Promise<ServiceResponse<Res>>
 ) => {
   let seed = 0;
   const tasks = new Set<number>();
-  const context: RequestContext<Req, Res> = reactive({
+  const context: RequestContext<Res, Req> = reactive({
     loading: false,
     pending: false,
     error: null,
-    request(req: Req) {
+    request(req?: Req) {
       context.loading = true;
       context.pending = true;
       seed++;
@@ -37,6 +37,7 @@ export const useRequest = <Req = any, Res = any>(
       return requestFn(req)
         .then((res) => {
           if (res.success) {
+            context.error = null;
             return res.data;
           }
           context.error = new RequestError(res.code, res.message);
